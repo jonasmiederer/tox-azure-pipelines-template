@@ -5,6 +5,7 @@ parameters:
     with_toxenv: ""
     for_envs: []
   dependsOn: []
+  env: []
 
 jobs:
   - ${{ each job in parameters.jobs }}:
@@ -141,6 +142,8 @@ jobs:
             displayName: generate tox test environment
           - script: "$(toxPython.pythonLocation)/python -m tox"
             displayName: run tox test environment
+            - ${{ if parameters.env }}:
+              env: ${{ parameters.env }}
 
           # upload junit result if present
           - bash:
